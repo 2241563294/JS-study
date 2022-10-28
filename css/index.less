@@ -1,0 +1,251 @@
+//css 初始化
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li {
+    list-style: none;
+}
+a:visited, a:link{
+    text-decoration: none;
+    color: #fff;
+}
+@font-face {
+    font-family: electronicFont;
+    src: url(../font/DS-DIGIT.TTF);
+}
+body {
+    background: url(../images/bg.jpg) no-repeat top center;
+    line-height: 1.15;
+}
+header {
+    height: 1.25rem;
+    background: url(../images/head_bg.png) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    h1 {
+        font-size: .475rem;
+        color: #fff;
+        text-align: center;
+        line-height: 1rem;
+    }
+    .showTime {
+        position: absolute;
+        top: 0;
+        right: .375rem;
+        line-height: .9375rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.25rem;
+    }
+}
+.mainbox {
+    display: flex;
+    min-width: 1024px;
+    max-width: 1920px;
+    padding: .125rem;
+    margin: 0 auto;
+    .col {
+        flex: 3;
+        &:nth-child(2) {
+            flex: 5;
+            margin: 0 .125rem .1875rem;
+            overflow: hidden;
+        }
+    }
+    .base {
+        position: relative;
+        height: 3.875rem;
+        border: 1px solid rgba(25, 186, 139, .17);
+        background: url(../images/line\(1\).png);
+        padding: 0 .1875rem .5rem;
+        margin-bottom: .1875rem;
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: "";
+            width: .125rem;
+            height: .125rem;
+            border-top: 2px solid #02a6b5;
+            border-left: 2px solid #02a6b5;
+        }
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: "";
+            width: .125rem;
+            height: .125rem;
+            border-top: 2px solid #02a6b5;
+            border-right: 2px solid #02a6b5;
+        }
+        .base-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                transform: translateY(-100%);
+                content: "";
+                width: .125rem;
+                height: .125rem;
+                border-bottom: 2px solid #02a6b5;
+                border-left: 2px solid #02a6b5;
+            }
+            &::after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                transform: translateY(-100%);
+                content: "";
+                width: .125rem;
+                height: .125rem;
+                border-bottom: 2px solid #02a6b5;
+                border-right: 2px solid #02a6b5;
+            }
+        }
+        h2 {
+            height: .6rem;
+            color: #fff;
+            line-height: .6rem;
+            font-size: .25rem;
+            text-align: center;
+            font-weight: 400;
+        }
+        .chart {
+            height: 100%;
+        }
+    }
+    .num {
+        background-color: rgba(101,132,226,0.1);
+        padding: .1875rem;
+        .num-hd {
+            border: 1px solid rgba(25, 186, 139, .17);
+            position: relative;
+            width: 100%;
+            ul {
+                display: flex;
+                li {
+                    position: relative;
+                    flex: 1;
+                    height: 1rem;
+                    color: #ffeb7b;
+                    font-size: .875rem;
+                    text-align: center;
+                    font-family: 'electronicFont';
+                    &:last-child::before {
+                        position: absolute;
+                        width: 1px;
+                        content: "";
+                        top: 25%;
+                        height: 50%;
+                        left: 0;
+                        background-color: rgba(255, 255, 255, 0.2);
+                    }  
+                }
+            }
+            &::before {
+                position: absolute; 
+                top: 0;
+                left: 0;
+                content: "";
+                width: .375rem;
+                height: .125rem;
+                border-top: 2px solid #02a6b5;
+                border-left: 2px solid #02a6b5;    
+             }
+             &::after {
+                 position: absolute; 
+                 bottom: 0;
+                 right: 0;
+                 content: "";
+                 width: .375rem;
+                 height: .125rem;
+                 border-bottom: 2px solid #02a6b5;
+                 border-right: 2px solid #02a6b5;    
+              }
+        }
+        .num-bd {
+            ul {
+                display: flex;
+                li{
+                    flex: 1;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: .225rem;
+                    padding: .125rem 0 ;
+                    height: .5rem;
+                    line-height: .5rem;
+                }
+            }
+        }
+    }
+    .map {
+        height: 10.125rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        .map1 {
+            position: absolute;
+            width: 6.475rem;
+            height: 6.475rem;
+            background: url(../images/map.png) no-repeat center center;
+            background-size: 100% 100%;
+            opacity: 0.3;
+        }
+        .map2 {
+            width: 8.0375rem;
+            height: 8.0375rem;
+            background: url(../images/lbx.png) no-repeat center center;
+            background-size: 100% 100%;
+            animation: rotate1 15s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes rotate1 {
+            form {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .map3 {
+            position: absolute;
+            width: 7.075rem;
+            height: 7.075rem;
+            background: url(../images/jt.png) no-repeat center center;
+            background-size: 100% 100%;
+            animation: rotate2 15s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes rotate2 {
+            form {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        .chart {
+            position: absolute;
+            width: 100%;
+            height: 10.125rem;
+        }
+    }
+}
+//屏幕约束
+@media screen and (max-width: 1024px) {
+    html {
+        font-size: 42px !important;
+    }
+}
+@media screen and (min-width: 1920)px {
+    html {
+        font-size: 80px!important;
+    }
+}
