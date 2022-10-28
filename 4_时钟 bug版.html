@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会动的时钟</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- 改一行代码 -->
+  <canvas id="canvans" width="500" height="500"></canvas>
+  <script>
+    const ctx = canvans.getContext('2d');
+
+    function clock() {
+      const w = canvans.width / 2;
+      const h = canvans.height / 2;
+      ctx.clearRect(0, 0, canvans.width, canvans.height);
+      ctx.translate(w, h); // 设置画布中心点
+      ctx.lineCap = 'round'; // 设置原形线帽
+      ctx.save(); // 保存状态
+     
+      // 绘制表盘外圈
+      ctx.beginPath();
+      ctx.arc(0, 0, 140, 0, Math.PI*2, true);
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, 5, 0, Math.PI*2, true);
+      ctx.lineWidth = 7;
+      ctx.strokeStyle = '#283b28';
+      ctx.stroke(); // 描边
+      // ctx.fill(); // 填充
+
+      // 绘制12小时
+      [...new Array(12).keys()].forEach(item => {
+        ctx.beginPath();
+        ctx.rotate(Math.PI / 6); // 旋转弧度
+        ctx.moveTo(100, 0);
+        ctx.lineTo(120, 0);
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.closePath();
+      });
+      ctx.restore();
+      ctx.save();
+      // 绘制60分钟刻度
+      [...new Array(60).keys()].forEach(item => {
+        ctx.beginPath();
+        ctx.rotate(Math.PI / 30); // 旋转弧度
+        ctx.arc(110, 0, 3, 0, Math.PI*2, true);
+        ctx.fillStyle = 'orange';
+        ctx.fill();
+        ctx.closePath();
+      });
+      ctx.restore();
+      ctx.save();
+      move();
+      function move() {
+        const { hh, mm, ss } = getTimes();
+        //  秒
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.rotate(ss * Math.PI / 30); // 弧度
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -100);
+        ctx.strokeStyle = `#${Math.random().toString(16).substr(2, 6)}`;
+        ctx.stroke();
+        ctx.restore();
+        ctx.save();
+
+        // 分
+        ctx.beginPath();
+        ctx.lineWidth = 4;
+        ctx.rotate(mm * Math.PI / 30); // 弧度
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -70);
+        ctx.strokeStyle = `#${Math.random().toString(16).substr(2, 6)}`;
+        ctx.stroke();
+        ctx.restore();
+        ctx.save();
+
+        // 时
+        ctx.beginPath();
+        ctx.lineWidth = 8;
+        ctx.rotate(hh * Math.PI / 6); // 弧度
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -40);
+        ctx.strokeStyle = `#${Math.random().toString(16).substr(2, 6)}`;
+        ctx.stroke();
+        ctx.restore();
+      }
+      requestAnimationFrame(function run() {
+        ctx.clearRect(0, 0, canvans.width, canvans.height);
+        move();
+        requestAnimationFrame(run);
+      })
+    }
+    clock();
+    // 获取时间
+    function getTimes() {
+      const date = new Date();
+      let hh = date.getHours();
+      hh = hh > 12 ? hh - 12 : hh;
+      const mm = date.getMinutes();
+      const ss = date.getSeconds();
+      return { hh, mm, ss };
+    }
+    
+  </script>
+</body>
+</html>

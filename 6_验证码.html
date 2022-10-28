@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>验证码</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvans" width="120" height="40"></canvas>
+  <script>
+    canvans.style.border = '1px solid ' + getRandomColor();
+    const ctx = canvans.getContext('2d');
+    
+    // 随机生成16进制的颜色值
+    function getRandomColor() {
+      return "#" + Math.random().toString(16).substr(2, 6);
+    }
+
+    function draw() {
+      // 随机画8条线
+      for(let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.moveTo(getRandom(0, canvans.width), getRandom(0, canvans.height));
+        ctx.lineTo(getRandom(0, canvans.width), getRandom(0, canvans.height));
+        ctx.strokeStyle = getRandomColor();
+        ctx.stroke();
+      }
+
+      [...new Array(20).keys()].forEach(() => {
+        ctx.beginPath(); // 新路径
+        ctx.arc(getRandom(0, canvans.width), getRandom(0, canvans.height), 1, 0, 2 * Math.PI)
+        ctx.fillStyle = getRandomColor();
+        ctx.fill();
+      });
+    }
+    draw();
+
+    // 获取随机数
+    function getRandom(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // 生成随机4个数或字母的验证码
+    function getCode() {
+      return Math.random().toString(26).substr(2, 1);
+    }
+    console.log([ctx.fillText]);
+    // 绘制验证码
+    for (let i = 0; i < 4; i++) {
+      ctx.beginPath();
+      ctx.font = '25px 微软雅黑';
+      ctx.fillStyle = getRandomColor();
+      ctx.fillText(getCode(), (i + 1) * getRandom(15, 25), getRandom(20, 40));
+    }
+  </script>
+</body>
+</html>

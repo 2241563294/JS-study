@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas饼图</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvans" width="600" height="400" style="background-color: #eee;" ></canvas>
+  <script>
+    // 绘制图片
+    // const img = document.createElement('img');
+    // img.src = 'https://www.twle.cn/static/i/meimei_160x160.png';
+    // img.onload = function() {
+    //   ctx.drawImage(img, 0, 0);
+    // };
+
+    class PieChart {
+
+      constructor(data) {
+        this.data = data;
+        this.canvans = canvans;
+        this.ctx = this.canvans.getContext('2d');
+        this.setRatio(); 
+        // 设置圆心
+        this.x0 = this.canvans.width / 2;
+        this.y0 = this.canvans.height / 2;
+        
+        this.radius = 150;
+        this.addLine = 20;
+        this.init();
+        this.bindEvent();
+      }
+
+      // 根据屏幕适应分辨率
+      setRatio() {
+        const d = window.devicePixelRatio || 1,
+        cd = this.ctx.backingStorePixelRatio || 1,
+        r = cd / d,
+        w = this.canvans.width,
+        h = this.canvans.height;
+        this.canvans.width = r * w;
+        this.canvans.height = r * h;
+        this.canvans.style.width = w;
+        this.canvans.style.height = h;
+        this.r = r;
+      }
+    
+      // 数据转弧度
+      toAngle() {
+        let total = 0;
+        this.data.forEach(item =>  total += item.num);
+        this.data.forEach(item => {
+          item.angle = item.num / total * Math.PI * 2;
+          item.color = this.randomColor();
+        });
+      }
+
+      // 随机颜色
+      randomColor() {
+        return '#' + Math.random().toString(16).substr(2, 6);
+      }
+
+      init() {
+        this.toAngle();
+        this.drawPie();
+      }
+
+      // 画饼
+      drawPie(x, y) {
+        let start = 0;
+        this.data.forEach((item, i) => {
+          let end = start + item.angle;
+          this.ctx.beginPath();
+          this.ctx.moveTo(this.x0, this.y0); // 设置圆心
+          this.ctx.arc(this.x0, this.y0, this.radius, start, end);
+          
+          // 未写完
+          // // 判断是否在圆上
+          // console.log(x, y);
+          // if (this.ctx.isPointInPath(x * this.r, y * this.r)) {
+          //   this.ctx.fillStyle = 'red';
+          // } else 
+          this.ctx.fillStyle = item.color;
+          this.ctx.fill();
+          this.drawTitle(start, this.radius, item);
+          this.drawLengend(i, item);
+          start = end;
+        });
+      }
+      
+      // 写字
+      drawTitle(start, radius, item) {
+        let lineLength = radius + this.addLine;
+        // 画线起始点
+        let endX = lineLength * Math.cos(start + item.angle / 2);
+        let endY = lineLength * Math.sin(start + item.angle / 2);
+        // 加上到起始点到圆心的距离才对
+        let outX = this.x0 + endX;
+        let outY = this.y0 + endY;
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.x0, this.y0);
+        this.ctx.lineTo(outX, outY);
+        this.ctx.strokeStyle = item.color;
+        this.ctx.stroke();
+
+        // 写字
+        this.ctx.font = '14px 微软雅黑';
+        this.ctx.textAlign = outX > this.x0 ? 'left' : 'right';
+        this.ctx.textBaseline = 'bottom'; // 以字的底部为基准
+        this.ctx.fillStyle = item.color;
+        this.ctx.fillText(item.title, outX, outY);
+
+        // 下划线
+        let textW = this.ctx.measureText(item.title).width;
+        this.ctx.moveTo(outX, outY);
+        // 向左还是向右画
+        let textEndX = outX > this.x0 ? outX + textW : outX - textW ;
+        this.ctx.lineTo(textEndX, outY);
+        this.ctx.stroke();
+      }
+
+      drawLengend(index, item) {
+        this.ctx.beginPath();
+        //(0,  0这个的20要比， 0 ，15大)
+        this.ctx.rect(20, 20 * index + 20, 40, 15);
+        this.ctx.fillStyle = item.color;
+        this.ctx.fill();
+        this.ctx.font = '14px 微软雅黑';
+        this.ctx.textAlign ='left';
+        this.ctx.fillStyle = item.color;
+        this.ctx.fillText(item.title, 70, 20 * index + 35);
+      }
+
+      bindEvent() {
+        // this.canvans.addEventListener('mouseover', (e) => {
+        //   let x  = e.clientX - this.canvans.getBoundingClientRect().left;
+        //   let y  = e.clientY - this.canvans.getBoundingClientRect().top;
+        //   this.ctx.clearRect(0, 0, this.canvans.width, this.canvans.height);
+        //   this.drawPie(x, y);
+        // });
+      }
+    }
+
+    let data = [{
+      title: "20岁以下",
+      num: 6
+      },
+      {
+      title: "20-25岁",
+      num: 50
+      },
+      {
+      title: "25-30岁",
+      num: 20
+      },
+      {
+      title: "30岁以上",
+      num: 4
+    }];
+
+    const chart = new PieChart(data);
+    chart.toAngle();
+  </script>
+</body>
+</html>

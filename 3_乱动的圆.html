@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面向对象思维</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvans"></canvas>
+  <script>
+    const ctx = canvans.getContext('2d');
+    let ballArr = [];
+    canvans.width = document.documentElement.clientWidth;
+    canvans.height = document.documentElement.clientHeight - 20;
+
+    class Ball {
+
+      constructor(canvans, ctx, r, color) {
+        this.r = r;
+        this.x = Math.random() * (canvans.width - this.r) + this.r;
+        this.y = Math.random() * (canvans.height - this.r) + this.r;
+        this.color = color;
+        this.sdx = parseInt(Math.random() * 10) - 5;
+        this.sdy = parseInt(Math.random() * 10) - 5;
+        this.ctx = ctx;
+        this.canvans = canvans
+      }
+
+      render() {
+        this.ctx.beginPath();
+        this.ctx.fillStyle = this.color;
+        this.ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
+        this.ctx.fill();
+      }
+
+      update() {
+        this.x += this.sdx;
+        this.y += this.sdy;
+        if (this.x <= 0 + this.r || this.x >= this.canvans.width - this.r) this.sdx = -this.sdx;
+        if (this.y <= 0 + this.r || this.y >= this.canvans.height - this.r) this.sdy = -this.sdy;
+      }
+    }
+    
+    [...new Array(20).keys()].forEach(element => {
+      const b = new Ball(canvans, ctx, Math.random() * 10 + 5, `#${Math.random().toString(16).substr(2, 6)}`);
+      b.render();
+      ballArr.push(b);
+    });
+
+    window.requestAnimationFrame(function run() {
+      ctx.clearRect(0, 0, canvans.width, canvans.height);
+      ballArr.forEach(item => {
+        item.update();
+        item.render();
+      });
+      window.requestAnimationFrame(run);
+    });
+  </script>
+</body>
+</html>

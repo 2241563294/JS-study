@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太极</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvans" width="600" height="400" ></canvas>
+  <script>
+    canvans.style.background="#ead8eb";
+
+    const ctx = canvans.getContext('2d');
+    // 左右两边的半圆
+    const radius = 150;
+    // 移动中心点
+    ctx.translate(canvans.width / 2, canvans.height / 2);
+
+    // 画大圆
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.save();
+    // (起始x， 起始y， 半径， 起始角度， 结束角度， 顺false逆true时针?)
+    ctx.arc(0, 0, radius, -Math.PI / 2, Math.PI / 2, false);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.fillStyle = '#000';
+    ctx.arc(0, 0, radius, -Math.PI / 2, Math.PI / 2, true);
+    ctx.fill();
+    
+    // 画小圆
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(0, -radius / 2, radius / 2, -Math.PI / 2, Math.PI / 2, true);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.fillStyle = '#000';
+    ctx.arc(0, radius / 2, radius / 2, -Math.PI / 2, Math.PI / 2, false);
+    ctx.fill();
+
+    // 画阵点
+    ctx.beginPath();
+    ctx.fillStyle = '#000';
+    ctx.arc(0, - radius / 2, 10, -Math.PI, Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(0, radius / 2, 10, -Math.PI, Math.PI);
+    ctx.fill();
+  </script>
+</body>
+</html>

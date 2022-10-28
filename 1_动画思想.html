@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动画思想</title>
+</head>
+<body>
+  <canvas id="canvans" width="500" height="600" style="border: 1px solid #000;"></canvas>
+  <script>
+    // 可以不写
+    // const canvans = document.getElementById("canvans");
+    // 获取画笔的2d对象
+    const ctx = canvans.getContext('2d');
+    // 设置颜色
+    ctx.fillStyle = 'red';
+    let left = 0;
+    // 填充矩形 xywh
+    ctx.fillRect(left, 100, 100, 100);
+  
+    // 动画过程
+    setInterval(() => {
+      ctx.clearRect(0, 0, canvans.width, canvans.height);
+      ctx.fillRect(left+=2, 100, 100, 100);
+    }, 10);
+  </script>
+</body>
+</html>

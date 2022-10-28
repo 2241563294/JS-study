@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<canvas id="inputImage" width="720" height="414"></canvas>
+<img src="" alt="">
+<body>
+  <script>
+    (function () {
+      //定义初始的笔触样式
+      let strokeStyle = "#000";
+      let lineWidth = 2;
+      const canvas = document.querySelector('#inputImage');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      // 写入图片
+      img.onload = () => {
+        console.log("图片加载完毕");
+        ctx.fillStyle = ctx.createPattern(img, 'repeat'); // 性质相当于css中的background-image
+        ctx.fillRect(0, 0, 720, 414);
+      }
+      img.src = './电子回单.jpg'
+      // 事件监听
+      canvas.onmousedown = (ev) => {
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = lineWidth;
+        //开始绘图
+        ctx.beginPath();
+        ctx.moveTo(ev.offsetX, ev.offsetY);
+        //鼠标移动事件
+        canvas.onmousemove = function (ev) {
+          ctx.lineTo(ev.offsetX, ev.offsetY);
+          //绘制
+          ctx.stroke();
+        }
+
+        //鼠标抬起时取消移动和抬起事件绑定
+        canvas.onmouseup = function (ev) {
+          canvas.onmouseup = null;
+          canvas.onmousemove = null;
+        }
+      }
+    }());
+  </script>
+</body>
+</html>

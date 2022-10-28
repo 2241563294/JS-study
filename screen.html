@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box {
+        position: relative;
+
+        height: 500px;
+      }
+
+      #box canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./电子回单.jpg" alt="" />
+    <div id="box">
+      <canvas id="canvas"></canvas>
+      <canvas id="canvas2"></canvas>
+    </div>
+    <canvas id="show"></canvas>
+    <input type="file" />
+    <script>
+      const i = document.querySelector("input");
+      i.onchange = function (e) {
+        console.log(e);
+        const file = e.target.files[0];
+        const url = window.URL.createObjectURL(file);
+      };
+      const img = document.querySelector("img");
+      img.onload = function () {
+        init(img);
+      };
+
+      function init(img) {
+        const canvas = document.getElementById("canvas");
+        const canvas2 = document.getElementById("canvas2");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas2.width = img.width;
+        canvas2.height = img.height;
+        const cxt = canvas.getContext("2d");
+        const cxt2 = canvas2.getContext("2d");
+        // cxt2.globalAlpha=0;
+        cxt.drawImage(img, 0, 0);
+        mountEvent(canvas, canvas2);
+      }
+
+      function mountEvent(canvas, canvas2) {
+        let rect = false;
+        let isPlayer = false;
+        let startX, startY;
+        const cxt = canvas2.getContext("2d");
+        canvas2.onmousedown = function (e) {
+          isPlayer = true;
+          startX = e.offsetX;
+          startY = e.offsetY;
+        };
+        canvas2.onmousemove = function (e) {
+          if (isPlayer) {
+            cxt.clearRect(0, 0, canvas2.width, canvas2.height);
+            // cxt.fillStyle = "rgba(0,0,0,0.2)";
+            // cxt.fillRect(0, 0, canvas2.width, canvas2.height);
+            if (!rect) {
+              cxt.strokeStyle = "rgba(255,0,0,255)";
+              cxt.moveTo(startX, startY);
+              cxt.lineTo(e.offsetX, e.offsetY);
+              cxt.stroke();
+              startX = e.offsetX;
+              startY = e.offsetY;
+            } else {
+              const width = e.offsetX - startX;
+              const height = e.offsetY - startY;
+              cxt.clearRect(startX, startY, width, height);
+              cxt.strokeRect(startX, startY, width, height);
+            }
+            // 保留上一次绘画结果
+          }
+        };
+        canvas2.onmouseup = function (e) {
+          isPlayer = false;
+          getCut();
+        };
+      }
+
+      function getCut() {
+        const canvas = document.getElementById("canvas");
+        const cxt = canvas.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const cxt2 = canvas2.getContext("2d");
+        const data = cxt.getImageData(0, 0, canvas.width, canvas.height);
+        const imgData = data.data;
+        const imgData2 = cxt2.getImageData(
+          0,
+          0,
+          canvas2.width,
+          canvas2.height
+        ).data;
+        console.log(imgData2);
+        // return
+        const col = canvas.width;
+        const row = canvas.height;
+        const dot = {};
+        for (let curRow = 0; curRow < row; curRow++) {
+          let start = curRow * col;
+          let end = start + col - 1;
+          let endFinished = false;
+          let startFinished = false;
+          //   dot[curRow] = [];
+          let count = 0;
+          while (end >= start && (!endFinished || !startFinished)) {
+            if (startFinished) {
+            } else if (imgData2[4 * start] === 255) {
+              !dot[curRow] ? (function(){dot[curRow] = [];dot[curRow][0] = count}()) : (dot[curRow][0] = count);
+              startFinished = true;
+            } else {
+              imgData[4 * start + 3] = 0;
+              start++;
+            }
+            if (endFinished) {
+            } else if (imgData2[4 * end] === 255) {
+              !dot[curRow] ? (function(){dot[curRow] = [];dot[curRow][1] = col - count}()) : (dot[curRow][1] = col - count);
+              endFinished = true;
+            } else {
+              imgData[4 * end + 3] = 0;
+              end--;
+            }
+            count++;
+          }
+        }
+        console.log(dot);
+
+        const show = document.getElementById("show");
+        show.width = canvas.width;
+        show.height = canvas.height;
+        const showCtx = show.getContext("2d");
+        showCtx.putImageData(data, 0, 0);
+
+
+        let left = [];
+        let maxWidth = 0;
+        for (const key in dot) {
+            const item = dot[key];
+            left.push(item[0]);
+            maxWidth = (item[1] - item[0]) > maxWidth ? item[1] - item[0] : maxWidth;
+        }
+        const imgDataAfter = showCtx.getImageData(Math.min(...left), Object.keys(dot)[0], maxWidth, Object.keys(dot)[Object.keys(dot).length - 1] - Object.keys(dot)[0]);
+        show.width = maxWidth;
+        show.height = Object.keys(dot)[Object.keys(dot).length - 1] - Object.keys(dot)[0];
+        showCtx.putImageData(imgDataAfter, 0, 0);
+        // console.log(showCtx.getImageData())
+        // console.log(dataURLtoBlob(show.toDataURL()));
+      }
+
+      function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(","),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], { type: mime });
+      }
+
+      function arrayBufferToBlob() {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面向对象思维</title>
+</head>
+<body>
+  <canvas id="canvans" width="500" height="600" style="border: 1px solid #000;"></canvas>
+  <script>
+    class DrawRect {
+      path = 'right';
+
+      constructor(x, y, w, h, color) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color = color;
+        this.rect = canvans.getContext("2d")
+      }
+
+      update(n = 1) {
+        if (this.x >= canvans.width - this.w ) this.path = 'left';
+        if (this.x <= 0) this.path = 'right'
+        switch (this.path) {
+          case 'right':
+            this.x += n;
+            break;
+          case 'left':
+            this.x -= n;
+            break;
+        }
+      }
+
+      render() {
+        this.rect.clearRect(0, 0, canvans.width, canvans.height);
+        this.rect.fillStyle = this.color ?? '#7a9d32';
+        this.rect.fillRect(this.x, this.y, this.w, this.h);
+      } 
+    }
+
+    const rect = new DrawRect(0, 10, 20, 20);
+    rect.render();
+    setInterval(() => {
+      rect.update();
+      rect.render();
+    }, 15)
+  </script>
+</body>
+</html>
