@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//继承：类型和类型之间的关系
+			//目的，是为了把子类型中共同的成员提取到父类型中
+			//父类型
+			function Person(){
+				this.name = "zs";
+				this.age = 18;
+				this.sex = '男';
+			}
+			//子类型原形继承
+			//无法设置构造函数的参数
+			function Student(){
+				this.score = 100;
+			}
+			Student.prototype = new Person();
+			Student.prototype.constructor = Student;
+			function Teacher(){
+				this.salary = 3000;
+			}
+			var s1 = new Student();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //高阶函数
+        //1 函数作为参数
+        function eat(fn){
+            setTimeout(() => {
+                console.log('吃晚饭');
+                //吃完晚饭之后做的事情
+                fn();
+            }, 2000);
+        }
+        eat(function(){
+            console.log('去唱歌');
+        });
+        // var arr =[35,1,6,20];
+        // arr.sort(function(a,b){
+        //     return a - b;
+        // });
+        // console.log(arr);
+        Array.prototype.mySort = function(fn){
+            for(var i=0;i<this.length-1;i++){
+                var isSort = true;
+                for(var j=0;j<this.length-i-1;j++){
+                    if(fn(this[j],this[j+1]>0)){
+                        isSort = false;
+                        var tmp = this[j];
+                        this[j] = this[j+1];
+                        this[j+1] = tmp;
+                    }
+                }
+                if(isSort){
+                    break;
+                }
+            }
+        }
+        var arr =[35,1,6,20];
+        arr.mySort(function(a, b){
+            return a - b;
+        });
+        // //2 函数作为返回值
+        // //写一个生成1-10之间的随机整数
+        // function getRandom(){
+        //     return parseInt(Math.random()*10)+1;
+        // }
+        //写一个生成1-10之间的随机整数
+        //以后每次调用都返回第一次生成的随机值
+        function getRandom(){
+            var random = parseInt(Math.random()*10)+1;
+            return function(){
+                return random;
+            }
+        }
+        //保存返回函数
+        var fn = getRandom();
+        console.log(fn());
+        console.log(fn());
+        console.log(fn());
+        console.log(fn());
+
+
+        //生成一个函数
+        function getFun(n){
+            return function(m){
+                return n + m;
+            }
+        }
+        //求100+m
+        var fn100 = getFun(100);
+        console.log(fn100(120));
+    </script>
+</body>
+</html>

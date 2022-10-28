@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //闭包：在一个作用域中 可以访问另一个作用域的变量
+        // 非本作用域的变量,且该变量作用域非全局
+        //特点：延展了函数的作用域
+
+        //未发生闭包
+        // function fn(){
+        //     var n = 10;
+        //     return n;
+        // }
+        // fn();
+
+        // function fn(){
+        //     var n = 10;
+        //     return function(){
+        //         return n;
+        //     }
+        // }
+        // var f = fn();
+
+        // console.log(f());
+
+        //闭包2
+        function ft(){
+            var t = 10;
+             return function (){
+                 console.log(t);
+             }
+        }
+        var f1 = ft();
+        f1();
+    </script>
+</body>
+</html>

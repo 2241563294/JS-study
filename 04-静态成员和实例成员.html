@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>04-静态成员和实例成员</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var MyMath = {
+				constructor: 'MyMath',
+				PI: 3.1415926,
+				max: function(){
+					
+				},
+				min: function(){
+					
+				}
+			}
+			//工具中使用静态成员: Math
+			// 静态成员 直接使用对象来调用的
+			// MyMath.PI;
+			// MyMath.max();
+			
+			//具有多个对象时，使用构造函数的形式来创建对象
+			//实例成员
+			function Person(name, age){
+				this.name = name;
+				this.age = age;
+				this.sayHi = function(){
+					
+				}
+			}
+			//通过构造函数创建对象
+			var p = Person("张三",23);
+		</script>
+	</body>
+</html>

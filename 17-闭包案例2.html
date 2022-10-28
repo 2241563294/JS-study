@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    我是字体的演示
+    <button>按钮1</button>
+    <button>按钮2</button>
+    <button>按钮3</button>
+    <script>
+        var btns = document.querySelectorAll("button");
+
+        btns[0].onclick = makeFun(12);
+        btns[1].onclick = makeFun(14);
+        btns[2].onclick = makeFun(16);
+
+        function makeFun(size){
+            return function(){
+                document.body.style.fontSize = size + 'px';
+            }
+        }
+    </script>
+</body>
+</html>

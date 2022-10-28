@@ -1,0 +1,22 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+#map{
+	width: 800px;
+	height: 600px;
+	margin: 10px auto;
+	background-color: lightgrey;
+	position: relative;
+}
+.btns{
+	position: absolute;
+	top: 50px;
+	left: -250px;
+}
+.btns>button{
+	width: 100px;
+	height: 40px;
+	font: 30px;
+	font-weight: bold;
+}

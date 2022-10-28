@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//bind() 改变函数this指向，返回新函数,不调用函数
+			function fn(x,y){
+				console.log(this);
+				console.log(x+y);
+			}
+			fn(5,6);
+			var o = {
+				name: 'zs'
+			};
+			// var newfn = fn.bind(o,1,2);
+			// newfn();
+			
+			//call() 改变函数中的this,直接调用函数
+			fn.call(this,2,3);
+			fn.call(o,2,3);
+		</script>
+	</body>
+</html>

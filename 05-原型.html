@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>05-原型</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// function Student(name, age, sex){
+			// 	this.name = name;
+			// 	this.age = age;
+			// 	this.sex = sex;
+				
+			// 	this.sayHi = sayHi;
+			// }
+			// //解决每个实例都会新建一个方法占用内存的问题
+			// function sayHi(){
+			// 	console.log('大家好，我是'+this.name);
+			// }
+			// console.log(s1.sayHi()===s2.sayHi());
+			// var s1 = new Student("李梅",18,"男");
+			// var s2 = new Student("韩美美",18,"女");
+			
+			//原型写法
+			function Student(name, age, sex){
+				this.name = name;
+				this.age = age;
+				this.sex = sex;
+			}
+			// //解决重名问题
+			// Student.prototype.sayHi = function(){
+			// 	console.log("大家好，我是"+this.name);
+			// }
+			//重复代码量太多
+			
+			// Student.prototype.constructor
+			//先设置原型属性，再创建对象，才能访问原型对象中的成员
+			Student.prototype = {
+				constructor: Student,//需要重新设置
+				sayHi: function(){
+					console.log("大家好，我是"+this.name);
+				},
+				eat: function(){
+					console.log('eat');
+				}
+			}
+			
+			var s1 = new Student("李梅",18,"男");
+			var s2 = new Student("韩美美",18,"女");
+		</script>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>03-构造函数</title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			//构造函数 -- 构造对象的函数
+			function Hero(name, blood, weapon){
+				this.constructor = 'Hero';
+				this.name = name;
+				this.blood = blood;
+				this.weapon = weapon;
+				
+				this.attack = function(){
+					console.log(this.weapon + '攻击敌人');
+				}
+			}
+			// 1.会在内存中创建一个空对象
+			// 2.设置构造函数的this,让this指向刚刚创建好的对象
+			// 3.执行构造函数中的代码
+			// 4.返回对象
+			var hero = new Hero('赵云', '1000','长枪');
+			hero.attack();
+			console.log(hero instanceof Hero);
+			console.log(hero.constructor);
+		</script>
+	</body>
+</html>

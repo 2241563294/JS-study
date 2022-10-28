@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //组合继承:借用构造函数+原型继承
+        function Person(name, age, sex){
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+        }
+        Person.prototype.sayHi = function(){
+            console.log('大家好，我是'+this.name);
+        }
+        function Student(name, age, sex, score){
+            Person.call(this, name, age, sex);
+            this.score = score;
+        }
+        // //产生了指向问题，后new的学生方法父也有
+        // Student.prototype = Person.prototype;
+        Student.prototype = new Person();
+        Student.prototype.constructor = Student;
+        Student.prototype.exam = function(){
+            console.log('考试');
+        }
+        var s1 = new Student('zs', 18, '男', 100);
+        console.dir(s1);
+
+        var p1 = new Person('ls',18,'男');
+        console.dir(p1);
+
+        function Teacher(name, age, sex, salary){
+            Person.call(this, name, age, sex);
+            this.salary = salary;
+        }
+        // //老师会有学生的考试方法
+        // Teacher.prototype = Person.prototype;
+        Teacher.prototype = new Person();
+        Teacher.prototype.constructor = Teacher;
+
+        var t1 = new Teacher("ww",30,'男',100000);
+        console.dir(t1);
+    </script>
+</body>
+</html>
